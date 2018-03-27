@@ -2,8 +2,8 @@
 Compare the following pieces of code that have the same functionality.
 For each function:
 - How does it work?
-- What is the runtime complexity of the funtion?
-Which solution would be fastest for large input sizes?
+- What is the runtime complexity of the function?
+- Which solution would be fastest for large input sizes?
 */
 
 
@@ -11,19 +11,24 @@ Which solution would be fastest for large input sizes?
 // For example, if the input is [5,2,4,5,4], the function should return [5,4] 
 // because those elements are in the array twice.
 
+console.time('findDuplicatesA');
 const findDuplicatesA = (array) => {
     const duplicated = [];
     for (let i = 0; i < array.length; i++) {
       for (let j = i+1; j < array.length; j++) {
         if (array[i] === array[j]) {
-          duplicated.push(item);
+          duplicated.push(array[j]);
         }
       }
     }
     return duplicated;
   }
-  
-  const findDuplicatesB = (array) => {
+findDuplicatesA([5, 2, 4, 5, 4]); // 0.134ms
+console.timeEnd('findDuplicatesA');
+
+
+console.time('findDuplicatesB');
+const findDuplicatesB = (array) => {
     const seen = new Set();
     const duplicates = new Set();
     for (let i = 0; i < array.length; i++) {
@@ -34,9 +39,13 @@ const findDuplicatesA = (array) => {
       seen.add(value);
     }
     return duplicates;
-  }
+};
+findDuplicatesB([5, 2, 4, 5, 4]); // 0.068ms
+console.timeEnd('findDuplicatesB');
   
-  const findDuplicatesC = (array) => {
+
+console.time('findDuplicatesC');
+const findDuplicatesC = (array) => {
     array.sort();
     const duplicates = [];
     for (let i = 0; i < array.length - 1; i++) {
@@ -47,9 +56,13 @@ const findDuplicatesA = (array) => {
       }
     }
     return duplicates;
-  }
+};
+findDuplicatesC([5, 2, 4, 5, 4]); // 0.739ms
+console.timeEnd('findDuplicatesC');
   
-  const findDuplicatesD = (array) => {
+
+console.time('findDuplicatesD');
+const findDuplicatesD = (array) => {
     const duplicated = [];
     const seen = [];
     for (let search = 0; search < array.length; search++) {
@@ -60,14 +73,18 @@ const findDuplicatesA = (array) => {
       seen.push(item);
     }
     return duplicated;
-  }
+};
+findDuplicatesD([5, 2, 4, 5, 4]); // 0.105ms
+console.timeEnd('findDuplicatesD');
   
   
+
   // The following 3 functions all count how many times an item is in an array 
   // and return a dictionary of the counts
   // For example, if the input is [5,2,4,5,4,5], the function should return {5:3, 4:2, 2:1} 
-  
-  const countOccurencesA = (array) => {
+
+console.time('countOccurencesA');
+const countOccurencesA = (array) => {
     const counts = {};
     for (let i = 0; i < array.length; i++) {
       const item = array[i];
@@ -82,15 +99,20 @@ const findDuplicatesA = (array) => {
       }
     }
     return counts;
-  }
-  
-  const countOccurencesB = (array) => {
+};
+countOccurencesA([5,2,4,5,4,5]); // 0.128ms
+console.timeEnd('countOccurencesA');
+
+
+console.time('countOccurencesB');
+const countOccurencesB = (array) => {
     const counts = {};
     array.sort();
     let previousItem = undefined;
     let itemCount = 0;
+    let currentItem;
     for (let i = 0; i < array.length; i++) {
-      const currentItem = array[i];
+      currentItem = array[i];
       if (currentItem === previousItem) {
         itemCount++;
       } else {
@@ -100,9 +122,13 @@ const findDuplicatesA = (array) => {
       }
     }
     counts[currentItem] = itemCount;
-  }
-  
-  const countOccurencesC = (array) => {
+};
+countOccurencesB([5,2,4,5,4,5]); // 0.123ms
+console.timeEnd('countOccurencesB');
+
+
+console.time('countOccurencesC');
+const countOccurencesC = (array) => {
     const counts = {};
     for (let i = 0; i < array.length; i++) {
       const item = array[i];
@@ -112,4 +138,6 @@ const findDuplicatesA = (array) => {
       counts[item] += 1;
     }
     return counts;
-  }
+};
+countOccurencesC([5,2,4,5,4,5]); // 0.094ms
+console.timeEnd('countOccurencesC');
